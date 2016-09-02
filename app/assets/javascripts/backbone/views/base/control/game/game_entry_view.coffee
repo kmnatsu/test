@@ -11,9 +11,9 @@ class GameGui.Views.Base.Control.Game.GameEntryView extends Backbone.View
     
     template: _.template JST['templates/base/control/game/game_entry_panel']()
     
-    initialize: (token) ->
+    initialize: (sign_model) ->
         # API実行用トークン
-        @token = token
+        @sign_model = sign_model
         
         # 対戦ルール取得結果
         @game_rule_colection = null

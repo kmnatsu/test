@@ -1,17 +1,18 @@
 class Api::SignsController < Api::Base
 
     # ログインAPI
-    # スタブとして仮実装中
     def create
-        @result = {
-            token: "stub_token",
-        }
         
-        #raise Application::Exceptions::ErrCode000Error.new
-        
-        sleep 1
-        
-        render json: @result
+        # リクエストパラメータを受け付ける
+#        service =  Signs::CreateService.new(params)
+
+        # ログイン処理の実行
+#        @result_data = service.execute
+@result_data = {
+    token: "dummy_token",
+    account_id: "dummy_account_id"
+}        
+        render json: @result_data
     end
     
     # ログアウトAPI

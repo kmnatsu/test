@@ -1,4 +1,5 @@
 # 管理対象
+#   アカウント情報
 #   対戦パネル
 #   マイページパネル
 #   ログアウト実行ボタン
@@ -9,8 +10,9 @@ class GameGui.Views.Base.ControlView extends Backbone.View
     
     template:  _.template JST['templates/base/control_panel']()
     
-    initialize: (token) ->
-        @token = token
+    initialize: (sign_model) ->
+        @sign_model = sign_model
+        @account_model = new GameGui.Models.Account(@sign_model.get('account_id'))
         
         this.delegateEvents({
             'click #logout_btn': 'execLogout'
@@ -63,17 +65,13 @@ class GameGui.Views.Base.ControlView extends Backbone.View
         # 適切なパネルを判定中画像を表示
         @$el.find("#activate_panel_executing_img").show()
 
-        # アカウント情報を取得する
-        accounts = new GameGui.Collections.AccountsCollection
-        accounts.fetchByToken(@token)
+        @account_model.fetchByToken(@sign_model.get('token'))
             .done =>
                 # アカウント情報を取得できた場合
                 console.log('accounts_collection.fetch success')
-                account = accounts.first()
                 
                 # アカウントが対戦をしていない場合
-                if account.isGameNotPlaying()
-                    
+                if @account_model.isGameNotPlaying()
                     # マイページパネルを開く
                     @activateMyPagePanel()
                 
@@ -90,8 +88,7 @@ class GameGui.Views.Base.ControlView extends Backbone.View
                 
                 # トークンが失効されたよ と報告
                 App.mediator.trigger('invalid:token:authenticate')
-                
-        
+
     
     # マイページパネルを活性化する
     activateMyPagePanel: ->
@@ -102,7 +99,7 @@ class GameGui.Views.Base.ControlView extends Backbone.View
         # マイページパネルを開く
         unless @mypageView?
             @$el.append '<div id="mypage_panel" class="mypage_panel_blk"></div>'
-            @mypageView = new GameGui.Views.Base.Control.MypageView(@token)
+            @mypageView = new GameGui.Views.Base.Control.MypageView(@account_model)
             @mypageView.renderInit()
         
         # ログアウトボタン、対戦ボタンを表示
@@ -123,12 +120,13 @@ class GameGui.Views.Base.ControlView extends Backbone.View
         unless @gameView?
             console.log('activate game panel non game panel')
             @$el.append '<div id="game_panel" class="game_panel_blk"></div>'
-            @gameView = new GameGui.Views.Base.Control.GameView(@token)
+            @gameView = new GameGui.Views.Base.Control.GameView(@sign_model)
             @gameView.renderInit()
 
     # ログアウトを実施する
     execLogout: ->
         console.log('exec logout')
+        
         
         # 認証情報の破棄要求を受理したよ と報告
         App.mediator.trigger('requested:sign:delete')

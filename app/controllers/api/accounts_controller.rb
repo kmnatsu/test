@@ -6,16 +6,13 @@ class Api::AccountsController < Api::Base
         puts "------params: #{params}"
         
         @result = {
-            accounts: {
-                status: "free",
-                game_status: "free",
-                user_name: "stub_user_name",
-            },
+            status: "free",
+            game_status: "free",
+            user_name: "stub_user_name",
+            game_id: nil,
         }
-        
+
         #raise Application::Exceptions::ErrCode006Error.new
-        
-        sleep 1
         
         render json: @result
     end

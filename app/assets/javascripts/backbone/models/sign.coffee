@@ -1,6 +1,6 @@
 # 認証情報
 class GameGui.Models.Sign extends Backbone.Model
-    urlRoot: '/accounts/signs'
+    urlRoot: '/signs'
     
     # アカウントIDとパスワードを指定して認証情報を取得
     fetchByAccountIdAndPassword: (account_id, password) ->
@@ -14,11 +14,11 @@ class GameGui.Models.Sign extends Backbone.Model
     destroyByToken: ->
         console.log('destroyByToken exec')
         params = 
-            token: @get("token")
-        console.log(@get("token"))
-        opt = 
-            url: "/accounts/signs"
+            token: @get('token')
+
+        opt = {
             data: params
             processData: true
-        @set('id', '')
+        }
+        @set('id', @get('account_id'))
         @destroy(opt)

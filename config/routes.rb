@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get '/gui' => 'gui#top_page'
-  post '/accounts/signs' => 'api/signs#create'
-  delete '/accounts/signs' => 'api/signs#delete'
-  get '/accounts' => 'api/accounts#index'
+  post '/signs' => 'api/signs#create'
+  delete '/signs/:account_id' => 'api/signs#delete'
+  get '/accounts/:account_id' => 'api/accounts#index'
 end

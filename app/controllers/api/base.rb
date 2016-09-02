@@ -6,6 +6,7 @@ class Api::Base < ApplicationController
     
     rescue_from Exception do |ex|
         logger.debug(ex.backtrace.join("\n"))
+        logger.error(ex.message)
         
         status = 500
         error_code = 'UNKNOWN'

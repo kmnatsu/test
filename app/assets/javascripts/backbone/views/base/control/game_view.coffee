@@ -8,8 +8,8 @@ class GameGui.Views.Base.Control.GameView extends Backbone.View
     
     template: _.template JST['templates/base/control/game_panel']()
     
-    initialize: (token) ->
-        @token = token
+    initialize: (sign_model) ->
+        @sign_model = sign_model
         
         # 対戦のエントリー完了報告を監視する
         @listenTo App.mediator, 'finish:game:entry',  =>
@@ -82,7 +82,7 @@ class GameGui.Views.Base.Control.GameView extends Backbone.View
         # 対戦エントリーパネルを開く
         unless @gameEntryView?
             @$el.append '<div id="game_entry_panel" class="game_entry_panel_blk"></div>'
-            @gameEntryView = new GameGui.Views.Base.Control.Game.GameEntryView(@token)
+            @gameEntryView = new GameGui.Views.Base.Control.Game.GameEntryView(@sign_model)
             @gameEntryView.renderInit()
     
     # 対戦プレイパネルを活性化
@@ -95,5 +95,5 @@ class GameGui.Views.Base.Control.GameView extends Backbone.View
         # 対戦プレイパネルを開く
         unless @gamePlayView?
             @$el.append '<div id="game_play_panel" class="game_play_panel_blk"></div>'
-            @gamePlayView = new GameGui.Views.Base.Control.Game.GamePlayView(@token)
+            @gamePlayView = new GameGui.Views.Base.Control.Game.GamePlayView(@sign_model)
             @gamePlayView.renderInit()

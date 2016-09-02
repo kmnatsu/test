@@ -64,7 +64,7 @@ class GameGui.Views.BaseView extends Backbone.View
         # コントロールパネルを表示する
         unless @controlView?
             @$el.append '<div id="control_panel" class="control_panel_blk"></div>'
-            @controlView = new GameGui.Views.Base.ControlView(@sign_model.get('token'))
+            @controlView = new GameGui.Views.Base.ControlView(@sign_model)
             @controlView.renderInit()
     
     # 未認証状態としてのパネル表示に切り替える

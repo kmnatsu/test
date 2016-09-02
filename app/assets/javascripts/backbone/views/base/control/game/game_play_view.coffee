@@ -11,8 +11,8 @@ class GameGui.Views.Base.Control.Game.GamePlayView extends Backbone.View
     
     template: _.template JST['templates/base/control/game/game_play_panel']()
     
-    initialize: (token) ->
-        @token = token
+    initialize: (sign_model) ->
+        @sign_model = sign_model
         
         # ゲームの情報を保持するオブジェクト
         @obj_game = null
